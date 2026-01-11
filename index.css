@@ -1,0 +1,264 @@
+/* ========================================
+   POLY MOTIVATOR - INDEX PAGE STYLES
+   ======================================== */
+
+:root {
+    --primary-gradient-left: #2A93D5;
+    --primary-gradient-right: #32D796;
+    --accent: #00C875;
+    --hero-card: #357D8A;
+    --neutral-bg: #F8FAFC;
+    --text-primary: #FFFFFF;
+    --text-highlight: #31D8B5;
+    --nav-inactive: #4A4A4A;
+}
+
+/* ========================================
+   GLOBAL STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--neutral-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* ========================================
+   NAVBAR (DO NOT MODIFY)
+   ======================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(44, 125, 138, 0.08);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 2rem;
+    z-index: 1000;
+    height: 64px;
+    gap: 0;
+    box-sizing: border-box;
+}
+
+.navbar .brand {
+    flex-shrink: 0;
+    margin-right: 0;
+    padding-right: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar .nav-spacer {
+    flex: 1 1 auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.brand:hover {
+    opacity: 0.8;
+}
+
+.brand-logo {
+    height: 58px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    align-items: center;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--nav-inactive);
+    font-weight: 500;
+    font-size: 0.80rem;
+    transition: color 0.2s;
+    padding: 0.5rem 1.1rem;
+    background: none;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.nav-links li a.active,
+.nav-links li a:hover {
+    color: var(--accent);
+    background: rgba(50, 215, 150, 0.08);
+}
+
+/* ========================================
+   HERO GRADIENT
+   ======================================== */
+.hero-gradient {
+    width: 100vw;
+    min-height: 100vh;
+    background: linear-gradient(90deg, var(--primary-gradient-left) 0%, var(--primary-gradient-right) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 64px;
+}
+
+/* ========================================
+   HERO CARD
+   ======================================== */
+.hero-card {
+    background: var(--hero-card);
+    color: var(--text-primary);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(44, 125, 138, 0.18);
+    padding: 3rem 2.5rem;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.hero-card h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.hero-card .highlight {
+    color: var(--text-highlight);
+    font-weight: bold;
+}
+
+.hero-card p {
+    font-size: 1.15rem;
+    margin-bottom: 2.5rem;
+}
+
+/* ========================================
+   CTA BUTTONS
+   ======================================== */
+.cta-btn {
+    background: var(--accent);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem 2.5rem;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 200, 117, 0.12);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cta-btn:hover {
+    background: #00b06b;
+    box-shadow: 0 4px 16px rgba(0, 200, 117, 0.24);
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.8rem 2rem;
+    margin-left: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.secondary-btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .hero-gradient {
+        padding-top: 80px;
+    }
+
+    .hero-card {
+        padding: 2.5rem 2rem;
+        max-width: 90vw;
+    }
+
+    .hero-card h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-card p {
+        font-size: 1rem;
+    }
+
+    .cta-btn {
+        font-size: 1.1rem;
+        padding: 0.8rem 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0 1rem;
+    }
+
+    .nav-links {
+        font-size: 0.7rem;
+    }
+
+    .nav-links li a {
+        padding: 0.4rem 0.8rem;
+    }
+
+    .hero-gradient {
+        padding-top: 70px;
+    }
+
+    .hero-card {
+        padding: 2rem 1.5rem;
+        max-width: 95vw;
+    }
+
+    .hero-card h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .hero-card p {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    .cta-btn {
+        font-size: 1rem;
+        padding: 0.7rem 1.8rem;
+    }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poly Semester Simulator</title>
+    <style>
+        /* CSS STYLES */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px; /* Adjust height as needed */
+            margin: 0;
+        }
+
+        .game-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 { margin-top: 0; color: #2d3748; }
+        p.subtitle { color: #718096; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: #edf2f7;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .stat-label { font-size: 0.8rem; color: #718096; display: block; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; color: #2d3748; }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.1s ease, opacity 0.2s;
+            font-weight: 600;
+        }
+
+        button:active { transform: scale(0.98); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .btn-study { background-color: #4299e1; color: white; }
+        .btn-sleep { background-color: #48bb78; color: white; }
+        .btn-chill { background-color: #ed8936; color: white; }
+        .btn-reset { background-color: #a0aec0; color: white; margin-top: 10px;}
+
+        #game-log {
+            margin-top: 20px;
+            padding: 10px;
+            background: #2d3748;
+            color: #48bb78; /* Terminal green */
+            font-family: monospace;
+            border-radius: 5px;
+            height: 60px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dynamic Colors for status */
+        .danger { color: #e53e3e; }
+        .good { color: #38a169; }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h2>🎓 Poly Life Sim</h2>
+        <p class="subtitle">Survive 12 weeks. Keep GPA high & Energy up!</p>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-label">Week</span>
+                <span class="stat-value" id="week-display">1/12</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">GPA</span>
+                <span class="stat-value" id="gpa-display">2.0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Energy</span>
+                <span class="stat-value" id="energy-display">100%</span>
+            </div>
+        </div>
+
+        <div id="game-log">Select an action to start semester...</div>
+
+        <div class="actions" id="action-buttons">
+            <button class="btn-study" onclick="playTurn('study')">📚 Grind Assignment (+GPA, -Energy)</button>
+            <button class="btn-sleep" onclick="playTurn('sleep')">😴 Power Nap (-GPA, +Energy)</button>
+            <button class="btn-chill" onclick="playTurn('chill')">🎮 Play Games (Small Energy Boost)</button>
+        </div>
+        
+        <button class="btn-reset" onclick="resetGame()" id="reset-btn" style="display:none; width:100%;">Restart Semester</button>
+    </div>
+
+    <script>
+        // GAME STATE
+        let state = {
+            week: 1,
+            gpa: 2.0,
+            energy: 100,
+            gameOver: false
+        };
+
+        // DOM ELEMENTS
+        const ui = {
+            week: document.getElementById('week-display'),
+            gpa: document.getElementById('gpa-display'),
+            energy: document.getElementById('energy-display'),
+            log: document.getElementById('game-log'),
+            actions: document.getElementById('action-buttons'),
+            reset: document.getElementById('reset-btn')
+        };
+
+        function updateUI() {
+            ui.week.innerText = state.week + "/12";
+            ui.gpa.innerText = state.gpa.toFixed(2);
+            ui.energy.innerText = state.energy + "%";
+            
+            // Visual coloring
+            ui.energy.className = "stat-value " + (state.energy < 30 ? "danger" : "good");
+            ui.gpa.className = "stat-value " + (state.gpa < 2.0 ? "danger" : "good");
+        }
+
+        function playTurn(action) {
+            if (state.gameOver) return;
+
+            let logMsg = "";
+
+            // LOGIC ENGINE
+            if (action === 'study') {
+                state.gpa += 0.3; // GPA goes up
+                state.energy -= 25; // Energy crashes
+                logMsg = "You pulled an all-nighter. GPA up, but you're tired!";
+            } else if (action === 'sleep') {
+                state.gpa -= 0.1; // Missed a study session
+                state.energy += 40; // Energy restored
+                logMsg = "You slept through a lecture. Energy restored.";
+            } else if (action === 'chill') {
+                state.gpa -= 0.05;
+                state.energy += 15;
+                logMsg = "You relaxed with friends. Mental health improved.";
+            }
+
+            // Cap values
+            if (state.gpa > 4.0) state.gpa = 4.0;
+            if (state.energy > 100) state.energy = 100;
+            if (state.gpa < 0) state.gpa = 0;
+
+            // Advance Week
+            state.week++;
+
+            // CHECK GAME OVER
+            if (state.energy <= 0) {
+                endGame("BURNOUT! You collapsed from exhaustion.");
+            } else if (state.week > 12) {
+                if (state.gpa >= 3.0) {
+                    endGame("VICTORY! You made the Dean's List! 🎉");
+                } else {
+                    endGame("SEMESTER OVER. Your GPA was too low. Try again.");
+                }
+            } else {
+                ui.log.innerText = logMsg;
+                updateUI();
+            }
+        }
+
+        function endGame(message) {
+            state.gameOver = true;
+            ui.log.innerText = message;
+            ui.log.style.color = state.gpa >= 3.0 && state.energy > 0 ? "#48bb78" : "#e53e3e"; // Green for win, Red for loss
+            ui.actions.style.display = 'none';
+            ui.reset.style.display = 'block';
+            updateUI();
+        }
+
+        function resetGame() {
+            state = { week: 1, gpa: 2.0, energy: 100, gameOver: false };
+            ui.actions.style.display = 'flex';
+            ui.reset.style.display = 'none';
+            ui.log.innerText = "New semester started. Good luck!";
+            ui.log.style.color = "#48bb78";
+            updateUI();
+        }
+
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>

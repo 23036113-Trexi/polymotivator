@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interest Quiz | PolyMotivator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Fixed Navigation Bar (DO NOT MODIFY) -->
+    <nav class="navbar">
+        <a class="brand" href="index.html">
+            <img src="polymotivator.jpg" alt="PolyMotivator Logo" class="brand-logo">
+        </a>
+        <div class="nav-spacer"></div>
+        <ul class="nav-links">
+            <li><a href="interest-quiz.html" class="active">Interest Quiz (Trexi)</a></li>
+            <li><a href="strength-assessment.html">Strength Assessment (Ethan)</a></li>
+            <li><a href="polytechnic-explorer.html">Polytechnic Explorer (Karolyn)</a></li>
+            <li><a href="preparation-tips.html">Preparation Tips (Osman)</a></li>
+            <li><a href="pathway-guide.html">Pathway Guide (Natasha)</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-container">
+        <!-- SECTION 1: WELCOME (Hero Design) -->
+        <section class="content-card welcome-section">
+            <div class="hero-flex">
+                <!-- Left Side: Text with Accent Bar -->
+                <div class="hero-text-container">
+                    <span class="step-label">STEP 1</span>
+                    <h1 class="hero-headline">Ready to find your path?</h1>
+                    <p class="hero-subtext">Watch this short introduction to get started.</p>
+                </div>
+
+                <!-- Right Side: Video Placeholder -->
+                <div class="video-placeholder">
+                    <video id="welcome-video" src="video1.mp4" controls playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: The Quiz -->
+        <section class="content-card quiz-section">
+            <div class="quiz-header">
+                <h2>Step 2: Interest Quiz</h2>
+                <div class="music-player">
+                    <audio id="study-music" src="music.mp3" loop></audio>
+                    <button id="music-toggle-btn" class="music-btn" title="Play lo-fi beats">
+                        <span class="music-icon">🎵</span>
+                        <span class="music-text">Need a study buddy? Click for lo-fi beats.</span>
+                    </button>
+                </div>
+            </div>
+            <iframe
+                id="botpress-iframe"
+                src="https://cdn.botpress.cloud/webchat/v3.5/shareable.html?configUrl=https://files.bpcontent.cloud/2025/12/28/08/20251228081413-FAI1WNHE.json"
+                allow="microphone"
+                title="Botpress Interest Quiz"
+            ></iframe>
+        </section>
+
+        <!-- SECTION 2.5: Congratulations Video -->
+        <section class="content-card congratulations-section">
+            <div class="video-section-centered">
+                <h2>🎉 Congratulations!</h2>
+                <p class="congratulations-text">You've completed the interest quiz! Watch this video and then scroll down to get personalized guidance.</p>
+                <div class="video-container-large">
+                    <video id="congratulations-video" src="video2.mp4" controls playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: The Agent -->
+        <section class="content-card agent-section">
+            <h2>Step 3: Personal Guidance</h2>
+            <flowise-fullchatbot></flowise-fullchatbot>
+            <script type="module">
+                import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+                Chatbot.initFull({
+                    chatflowid: "558cbf66-f04e-4a76-ba18-8b1575f85b6f",
+                    apiHost: "https://flowise-production-7ad0.up.railway.app",
+                })
+            </script>
+        </section>
+    </main>
+
+    <script src="interest-quiz.js"></script>
+
+</body>
+
+</html>
