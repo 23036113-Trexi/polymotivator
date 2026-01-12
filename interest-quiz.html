@@ -12,40 +12,38 @@
     <!-- Fixed Navigation Bar (DO NOT MODIFY) -->
     <nav class="navbar">
         <a class="brand" href="index.html">
-            <img src="polymotivator.jpg" alt="PolyMotivator Logo" class="brand-logo">
+            <img src="polymotivatorlogo.png" alt="PolyMotivator Logo" class="brand-logo">
         </a>
         <div class="nav-spacer"></div>
         <ul class="nav-links">
             <li><a href="interest-quiz.html" class="active">Interest Quiz (Trexi)</a></li>
-            <li><a href="strength-assessment.html">Strength Assessment (Ethan)</a></li>
-            <li><a href="polytechnic-explorer.html">Polytechnic Explorer (Karolyn)</a></li>
-            <li><a href="preparation-tips.html">Preparation Tips (Osman)</a></li>
-            <li><a href="pathway-guide.html">Pathway Guide (Natasha)</a></li>
+            <li><a href="https://ethanshenyuheng.github.io/PolyMotivator/" target="_blank">Strength Assessment (Ethan)</a></li>
+            <li><a href="https://23020720karo.github.io/PolyMotivator/" target="_blank">Polytechnic Explorer (Karolyn)</a></li>
+            <li><a href="https://osmanwu.github.io/PolyMotivatorC240/" target="_blank">Preparation Tips (Osman)</a></li>
+            <li><a href="https://natasha-lim.github.io/PolyMotivator-NatashaLim/" target="_blank">Pathway Guide (Natasha)</a></li>
         </ul>
     </nav>
 
     <main class="main-container">
         <!-- SECTION 1: WELCOME (Hero Design) -->
         <section class="content-card welcome-section">
-            <div class="hero-flex">
-                <!-- Left Side: Text with Accent Bar -->
-                <div class="hero-text-container">
-                    <span class="step-label">STEP 1</span>
-                    <h1 class="hero-headline">Ready to find your path?</h1>
-                    <p class="hero-subtext">Watch this short introduction to get started.</p>
-                </div>
-
-                <!-- Right Side: Video Placeholder -->
-                <div class="video-placeholder">
-                    <video id="welcome-video" src="https://res.cloudinary.com/dezllxn6a/video/upload/v1768145940/video1_fgcd2r.mp4" controls playsinline></video>
-                </div>
+            <div class="section-title-with-step">
+                <span class="step-label">1</span>
+                <h1 class="hero-headline">🎬 Ready to find your path?</h1>
+            </div>
+            <p class="hero-subtext">Watch this short introduction to get started.</p>
+            <div class="video-placeholder">
+                <video id="welcome-video" src="https://res.cloudinary.com/dezllxn6a/video/upload/v1768145940/video1_fgcd2r.mp4" controls playsinline></video>
             </div>
         </section>
 
         <!-- SECTION 2: The Quiz -->
         <section class="content-card quiz-section">
             <div class="quiz-header">
-                <h2>Step 2: Interest Quiz</h2>
+                <div class="section-title-with-step">
+                    <span class="step-label">2</span>
+                    <h2>📝 Interest Quiz</h2>
+                </div>
                 <div class="music-player">
                     <audio id="study-music" src="https://res.cloudinary.com/dezllxn6a/video/upload/v1768146141/music_qeiek0.mp3" loop></audio>
                     <button id="music-toggle-btn" class="music-btn" title="Play lo-fi beats">
@@ -62,26 +60,45 @@
             ></iframe>
         </section>
 
-        <!-- SECTION 2.5: Congratulations Video -->
+        <!-- SECTION 3: Congratulations Video -->
         <section class="content-card congratulations-section">
-            <div class="video-section-centered">
+            <div class="section-title-with-step">
+                <span class="step-label">3</span>
                 <h2>🎉 Congratulations!</h2>
-                <p class="congratulations-text">You've completed the interest quiz! Watch this video and then scroll down to get personalized guidance.</p>
-                <div class="video-container-large">
-                    <video id="congratulations-video" src="https://res.cloudinary.com/dezllxn6a/video/upload/v1768146092/video2_ksgkqm.mp4" controls playsinline></video>
-                </div>
+            </div>
+            <p class="congratulations-text">You've completed the interest quiz! Watch this video and then scroll down to get personalized guidance.</p>
+            <div class="video-container-large">
+                <video id="congratulations-video" src="https://res.cloudinary.com/dezllxn6a/video/upload/v1768146092/video2_ksgkqm.mp4" controls playsinline></video>
             </div>
         </section>
 
         <!-- SECTION 3: The Agent -->
         <section class="content-card agent-section">
-            <h2>Step 3: Personal Guidance</h2>
+            <div class="agent-header">
+                <div class="section-title-with-step">
+                    <span class="step-label">4</span>
+                    <h2>🤖 Personal Guidance</h2>
+                </div>
+                <button id="flowise-refresh-btn" class="refresh-btn" title="Refresh chat">
+                    <span class="refresh-icon">🔄</span>
+                    <span class="refresh-text">Refresh Chat</span>
+                </button>
+            </div>
             <flowise-fullchatbot></flowise-fullchatbot>
             <script type="module">
                 import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
                 Chatbot.initFull({
                     chatflowid: "558cbf66-f04e-4a76-ba18-8b1575f85b6f",
                     apiHost: "https://flowise-production-7ad0.up.railway.app",
+                    theme: {
+                        chatWindow: {
+                            showTitle: false,
+                            welcomeMessage: "Hello! 🌟 I'm your PolyMotivator Guide. Ready to discover your best diploma options? Just type or paste your Interest Profile below to get started!",
+                            backgroundColor: '#ffffff',
+                            height: '100%',
+                            width: '100%'
+                        }
+                    }
                 })
             </script>
         </section>

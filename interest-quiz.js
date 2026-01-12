@@ -117,37 +117,46 @@ document.addEventListener('DOMContentLoaded', () => {
     window.quizController = new InterestQuizController();
     console.log("Quiz Controller initialized");
 
-    // Prevent auto-scroll from iframe or external sources
-    window.scrollTo(0, 0);
-
-    // Disable iframe interactions temporarily to prevent auto-scroll
+    // Prevent Botpress iframe from auto-scrolling the page
     const botpressIframe = document.getElementById('botpress-iframe');
     if (botpressIframe) {
-        botpressIframe.style.pointerEvents = 'none';
+        // Save current scroll position before iframe loads
+        const currentScroll = window.scrollY;
 
-        // Re-enable interactions after a short delay
+        // Restore scroll position if iframe tries to scroll the page
+        const scrollHandler = () => {
+            if (window.scrollY !== currentScroll) {
+                window.scrollTo(0, currentScroll);
+            }
+        };
+
+        // Listen for scroll events during iframe load
+        window.addEventListener('scroll', scrollHandler, true);
+
+        // Stop listening after iframe has fully loaded
         setTimeout(() => {
-            botpressIframe.style.pointerEvents = 'auto';
-        }, 500);
+            window.removeEventListener('scroll', scrollHandler, true);
+            console.log("Botpress iframe loaded - scroll listener removed");
+        }, 2000);
     }
 });
 
-// Prevent scroll to iframe when page loads
+// Prevent Botpress from auto-scrolling page on load
 window.addEventListener('load', () => {
-    window.scrollTo(0, 0);
-});
-
-// Block any scroll events in the first 2 seconds
-let scrollBlocked = true;
-setTimeout(() => {
-    scrollBlocked = false;
-}, 2000);
-
-window.addEventListener('scroll', () => {
-    if (scrollBlocked) {
-        window.scrollTo(0, 0);
+    // Restore user's scroll position after iframes try to scroll
+    const scrollY = sessionStorage.getItem('scrollY');
+    if (scrollY !== null && sessionStorage.getItem('pageLoadCount') === '1') {
+        window.scrollTo(0, parseInt(scrollY));
+        sessionStorage.removeItem('scrollY');
+        sessionStorage.removeItem('pageLoadCount');
     }
 }, { passive: false });
+
+// Save scroll position before page navigation
+window.addEventListener('beforeunload', () => {
+    sessionStorage.setItem('scrollY', window.scrollY.toString());
+    sessionStorage.setItem('pageLoadCount', '1');
+});
 
 // ========================================
 // MUSIC PLAYER FUNCTIONALITY
@@ -187,4 +196,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ========================================
+// FLOWISE REFRESH BUTTON FUNCTIONALITY
+// ========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const refreshBtn = document.getElementById('flowise-refresh-btn');
+
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            console.log("Refresh button clicked");
+
+            // Save current scroll position before reload
+            sessionStorage.setItem('scrollY', window.scrollY.toString());
+            sessionStorage.setItem('pageLoadCount', '1');
+
+            // Clear localStorage to reset Flowise chat
+            Object.keys(localStorage).forEach(key => {
+                localStorage.removeItem(key);
+            });
+
+            // Clear IndexedDB (Flowise uses this for persistence)
+            if (window.indexedDB) {
+                window.indexedDB.databases().then(databases => {
+                    databases.forEach(db => {
+                        window.indexedDB.deleteDatabase(db.name);
+                        console.log(`Deleted IndexedDB: ${db.name}`);
+                    });
+                }).catch(err => {
+                    console.log("Error clearing IndexedDB:", err);
+                });
+            }
+
+            // Wait a moment for storage clearing, then reload
+            setTimeout(() => {
+                window.location.reload();
+            }, 300);
+        });
+    }
+});
 
